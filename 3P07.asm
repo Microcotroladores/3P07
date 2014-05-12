@@ -64,6 +64,7 @@ P7:		INCF	BUT,1
 FIN:	CLRF	BUT
         RETURN
 NUM: 	MOVF 	BUT,0
+	CALL 	VALOR
         MOVWF 	PORTA
         RETURN
 ROWS: 	ADDWF 	PCL,1
@@ -71,4 +72,21 @@ ROWS: 	ADDWF 	PCL,1
         RETLW	0DH
         RETLW	0BH
         RETLW	07H
+VALOR:    ADDWF    PCL,1
+	RETLW    01H
+	RETLW    02H
+    	RETLW    03H
+    	RETLW    0AH
+   	RETLW    04H
+    	RETLW    05H
+    	RETLW    06H
+    	RETLW    0BH
+    	RETLW    07H
+    	RETLW    08H
+    	RETLW    09H
+    	RETLW    0CH
+    	RETLW    0EH
+    	RETLW    00H
+    	RETLW    0FH
+    	RETLW    0DH
         END
