@@ -1,0 +1,185 @@
+MPASM  5.35beta                          3P07.ASM   5-8-2014  16:51:12         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 #INCLUDE<P16F84A.INC>
+                      00001         LIST
+                      00002 ; P16F84A.INC  Standard Header File, Version 2.00    Microchip Technology, Inc.
+                      00134         LIST
+2007   3FFD           00002         __CONFIG _XT_OSC
+                      00003         CBLOCK 0CH
+  0000000C            00004         CROW
+  0000000D            00005         BUT
+  0000000E            00006         PRT
+                      00007                 ENDC
+                      00008         ORG     00H
+0000   1683           00009 CONF:   BSF     STATUS,RP0
+0001   30F0           00010         MOVLW   0F0H
+0002   0086           00011         MOVWF   PORTB
+0003   0185           00012         CLRF    PORTA
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0004   1381           00013                 BCF     OPTION_REG,NOT_RBPU
+0005   1283           00014         BCF     STATUS,RP0
+0006   018C           00015 START:  CLRF    CROW 
+0007   018D           00016                 CLRF    BUT
+0008   2???           00017                 CALL    CICLO1
+0009   0A8C           00018                 INCF    CROW,1
+000A   2???           00019                 CALL    IN4BUT
+000B   2???           00020                 CALL    CICLO1
+000C   0A8C           00021                 INCF    CROW,1
+000D   2???           00022                 CALL    IN4BUT
+000E   2???           00023                 CALL    IN4BUT
+000F   2???           00024                 CALL    CICLO1
+0010   0A8C           00025                 INCF    CROW,1
+0011   2???           00026                 CALL    IN4BUT
+0012   2???           00027                 CALL    IN4BUT
+0013   2???           00028                 CALL    IN4BUT
+0014   2???           00029                 CALL    CICLO1
+0015   0A8C           00030                 INCF    CROW,1
+0016   2???           00031                 CALL    CICLO1
+0017   2???           00032                 GOTO    START
+0018   080C           00033 CICLO1: MOVF    CROW,0
+0019   2???           00034         CALL    ROWS
+001A   0086           00035         MOVWF   PORTB
+001B   2???           00036         CALL    RROW
+001C   0008           00037         RETURN
+001D   3004           00038 IN4BUT: MOVLW   04H
+001E   078D           00039                 ADDWF   BUT,1
+001F   0008           00040                 RETURN
+0020   1A06           00041 RROW:   BTFSC   PORTB,4
+0021   2???           00042         GOTO    P5
+0022   1E06           00043         BTFSS   PORTB,4
+0023   2???           00044         GOTO    $-1
+0024   2???           00045         CALL    NUM
+0025   0A8D           00046 P5:             INCF    BUT,1
+0026   1A86           00047                 BTFSC   PORTB,5
+0027   2???           00048         GOTO    P6
+0028   1E86           00049         BTFSS   PORTB,5
+MPASM  5.35beta                          3P07.ASM   5-8-2014  16:51:12         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0029   2???           00050         GOTO    $-1
+002A   2???           00051         CALL    NUM
+002B   0A8D           00052 P6:             INCF    BUT,1
+002C   1B06           00053                 BTFSC   PORTB,6
+002D   2???           00054         GOTO    P7
+002E   1F06           00055         BTFSS   PORTB,6
+002F   2???           00056         GOTO    $-1
+0030   2???           00057         CALL    NUM
+0031   0A8D           00058 P7:             INCF    BUT,1
+0032   1B86           00059                 BTFSC   PORTB,7
+0033   2???           00060         GOTO    FIN
+0034   1F86           00061         BTFSS   PORTB,7
+0035   2???           00062         GOTO    $-1
+0036   2???           00063         CALL    NUM
+0037   018D           00064 FIN:    CLRF    BUT
+0038   0008           00065         RETURN
+0039   080D           00066 NUM:    MOVF    BUT,0
+003A   0085           00067         MOVWF   PORTA
+003B   0008           00068         RETURN
+003C   0782           00069 ROWS:   ADDWF   PCL,1
+003D   340E           00070         RETLW   0EH
+003E   340D           00071         RETLW   0DH
+003F   340B           00072         RETLW   0BH
+0040   3407           00073         RETLW   07H
+3FFD                  00074         END
+MPASM  5.35beta                          3P07.ASM   5-8-2014  16:51:12         PAGE  3
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+BUT                               0000000D
+C                                 00000000
+CICLO1                            00000018
+CONF                              00000000
+CROW                              0000000C
+DC                                00000001
+EEADR                             00000009
+EECON1                            00000088
+EECON2                            00000089
+EEDATA                            00000008
+EEIE                              00000006
+EEIF                              00000004
+F                                 00000001
+FIN                               00000037
+FSR                               00000004
+GIE                               00000007
+IN4BUT                            0000001D
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+NOT_PD                            00000003
+NOT_RBPU                          00000007
+NOT_TO                            00000004
+NUM                               00000039
+OPTION_REG                        00000081
+P5                                00000025
+P6                                0000002B
+P7                                00000031
+PCL                               00000002
+PCLATH                            0000000A
+PORTA                             00000005
+PORTB                             00000006
+PRT                               0000000E
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RBIE                              00000003
+RBIF                              00000000
+RD                                00000000
+ROWS                              0000003C
+RP0                               00000005
+RP1                               00000006
+RROW                              00000020
+START                             00000006
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+MPASM  5.35beta                          3P07.ASM   5-8-2014  16:51:12         PAGE  4
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TMR0                              00000001
+TRISA                             00000085
+TRISB                             00000086
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_.org_0_0023                      00000023
+_.org_0_0029                      00000029
+_.org_0_002F                      0000002F
+_.org_0_0035                      00000035
+_CP_OFF                           00003FFF
+_CP_ON                            0000000F
+_HS_OSC                           00003FFE
+_LP_OSC                           00003FFC
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F84A                          00000001
+__DEBUG                           1
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     1 reported,     0 suppressed
+
+
