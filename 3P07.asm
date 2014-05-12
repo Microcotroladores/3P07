@@ -1,0 +1,74 @@
+#INCLUDE<P16F84A.INC>
+        __CONFIG _XT_OSC
+        CBLOCK 0CH
+        CROW
+        BUT
+        PRT
+		ENDC
+        ORG 	00H
+CONF:	BSF 	STATUS,RP0
+        MOVLW 	0F0H
+        MOVWF 	PORTB
+        CLRF 	PORTA
+		BCF 	OPTION_REG,NOT_RBPU
+        BCF 	STATUS,RP0
+START: 	CLRF 	CROW 
+		CLRF 	BUT
+		CALL	CICLO1
+		INCF 	CROW,1
+		CALL	IN4BUT
+		CALL	CICLO1
+		INCF 	CROW,1
+		CALL	IN4BUT
+		CALL	IN4BUT
+		CALL	CICLO1
+		INCF 	CROW,1
+		CALL	IN4BUT
+		CALL	IN4BUT
+		CALL	IN4BUT
+		CALL	CICLO1
+		INCF 	CROW,1
+		CALL	CICLO1
+		GOTO	START
+CICLO1: MOVF 	CROW,0
+        CALL 	ROWS
+        MOVWF 	PORTB
+        CALL 	RROW
+        RETURN
+IN4BUT:	MOVLW	04H
+		ADDWF	BUT,1
+		RETURN
+RROW: 	BTFSC 	PORTB,4
+        GOTO	P5
+        BTFSS 	PORTB,4
+        GOTO 	$-1
+        CALL 	NUM
+P5:		INCF	BUT,1
+		BTFSC 	PORTB,5
+        GOTO	P6
+        BTFSS 	PORTB,5
+        GOTO 	$-1
+        CALL 	NUM
+P6:		INCF	BUT,1
+		BTFSC 	PORTB,6
+        GOTO	P7
+        BTFSS 	PORTB,6
+        GOTO 	$-1
+        CALL 	NUM
+P7:		INCF	BUT,1
+		BTFSC 	PORTB,7
+        GOTO	FIN
+        BTFSS 	PORTB,7
+        GOTO 	$-1
+        CALL 	NUM
+FIN:	CLRF	BUT
+        RETURN
+NUM: 	MOVF 	BUT,0
+        MOVWF 	PORTA
+        RETURN
+ROWS: 	ADDWF 	PCL,1
+        RETLW	0EH
+        RETLW	0DH
+        RETLW	0BH
+        RETLW	07H
+        END
